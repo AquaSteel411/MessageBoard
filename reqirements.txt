@@ -1,0 +1,6 @@
+django
+django-filter
+django-allauth
+django-ckeditor-5
+python-dotenv
+django-apscheduler

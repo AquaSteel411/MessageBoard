@@ -1,0 +1,36 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_tags %}
+
+{% block title %}
+Ads
+{% endblock title %}
+
+{% block content %}
+<h2>All reply to your ads</h2>
+<hr>
+   <form action="" method="get">
+       {{ filterset.form.as_p }}
+       <input type="submit" value="Search" />
+   </form>
+<hr>
+<style>
+td {
+    border: 2px solid Black;
+    background-color: gainsboro;
+    }
+</style>
+<table width="100%" border="1" bordercolor="grey" style="border-collapse: collapse;">
+{% if reply_list|length != 0 %}
+    {% for reply in reply_list %}
+        <tr>
+        <td width="15%">{{ reply.author }}</td>
+        <td width="60%"><a href="{% url 'reply' reply.id %}" class="my_btn_title">{{ reply.text|truncatewords:10 }}</a></td>
+        <td width="15%">{{ reply.created|date:'d M Y' }}</td>
+        <td width="10%"><a href="{% url 'reply_delete' reply.id %}" class="my_btn_delete">Delete</a></td>
+    {% endfor %}
+</table><br>
+{% else %}
+<h3>You don't have any new responses yet!</h3>
+{% endif %}
+{% endblock content %}

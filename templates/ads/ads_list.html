@@ -1,0 +1,52 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+Ads
+{% endblock title %}
+
+{% block content %}
+<h2>All advertisements</h2>
+<hr>
+<a href="{% url 'ad_create' %}" class="my_btn_new_ad">New ad</a><br>
+<style>
+td {
+    border: 2px solid Black;
+    background-color: gainsboro;
+    }
+</style>
+<table width="100%" border="1" bordercolor="grey" style="border-collapse: collapse;">
+{% for ad in ads_list %}
+
+        <tr>
+        <td width="10%">{{ ad.author }}</td>
+        <td width="15%"><a href="{% url 'ad_detail' ad.id %}"  class="my_btn_title">{{ ad.title }}</a></td>
+        <td width="11%">{{ ad.category }}</td>
+        <td width="600px" height="100">{{ ad.content|safe|truncatewords:10 }}</td>
+        <td width="11%">{{ ad.created|date:'d M Y' }}<br>
+        {% if ad.author.user_id == request.user.id or request.user.is_superuser %}
+        <a href="{% url 'ad_update' ad.id %}" class="my_btn_update">Change</a>
+        <a href="{% url 'ad_delete' ad.id %}" class="my_btn_delete">Delete</a>
+        {% endif %}
+        </td>
+        </tr>
+
+{% endfor %}
+</table><br>
+
+    {% if page_obj.has_previous %}
+        <a href="?page=1" class="btn_page_my">1</a>
+        {% if page_obj.previous_page_number != 1 %}
+            <a href="?page={{ page_obj.previous_page_number }}" class="btn_page_my">{{ page_obj.previous_page_number }}</a>
+        {% endif %}
+    {% endif %}
+
+    {{ page_obj.number }}
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="btn_page_my">{{ page_obj.next_page_number }}</a>
+        {% if paginator.num_pages != page_obj.next_page_number %}
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="btn_page_my">{{ page_obj.paginator.num_pages }}</a>
+        {% endif %}
+    {% endif %}
+
+{% endblock content %}

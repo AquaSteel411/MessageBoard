@@ -1,0 +1,41 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+Ads
+{% endblock title %}
+
+{% block content %}
+<h2>My ads</h2>
+<hr>
+<a href="{% url 'ad_create' %}" class="my_btn_new_ad">New ad</a><br>
+
+<style>
+td {
+    border: 2px solid Black;
+    background-color: gainsboro;
+    }
+</style>
+<table width="100%" border="1" bordercolor="grey" style="border-collapse: collapse;">
+{% if my_ads != 0 %}
+    {% for ad in my_ads %}
+
+        <tr>
+        <td width="10%">{{ ad.author }}</td>
+        <td width="15%"><a href="{% url 'ad_detail' ad.id %}"  class="my_btn_title">{{ ad.title }}</a></td>
+        <td width="11%">{{ ad.category }}</td>
+        <td width="53%" height="100">{{ ad.content|safe|truncatewords:10 }}</td>
+        <td width="11%">{{ ad.created|date:'d M Y' }}<br>
+        {% if ad.author.user_id == request.user.id or request.user.is_superuser %}
+        <a href="{% url 'ad_update' ad.id %}" class="my_btn_update">Change</a>
+        <a href="{% url 'ad_delete' ad.id %}" class="my_btn_delete">Delete</a>
+        {% endif %}
+        </td>
+        </tr>
+
+    {% endfor %}
+</table><br>
+{% else %}
+<h3>You don't have any ads yet!</h3>
+{% endif %}
+
+{% endblock content %}

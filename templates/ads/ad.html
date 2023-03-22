@@ -1,0 +1,39 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+Ad
+{% endblock title %}
+
+{% block content %}
+<h2>Advertisement</h2>
+<hr>
+<h3>{{ ad.title }}</h3>
+<h4>{{ ad.category }}</h4>
+<h4>{{ ad.author }}</h4>
+<h5>{{ ad.content | safe }}</h5>
+
+<hr>
+{% if ad.author.user_id == request.user.id %}
+    {% if reply_list|length == 0 %}
+        <h5>There are no responses to this ad</h5>
+    {% else %}
+        <h4>All reply:</h4>
+        {% for reply in reply_list %}
+            <h5><a href="{% url 'reply' reply.id %}" class="my_btn_title">{{ reply.author }}</a></h5>
+            <h5>{{ reply.text }}</h5>
+            <h5>{{ reply.created }}</h5>
+            <hr>
+        {% endfor %}
+    {% endif %}
+{% else %}
+<h4></h4>
+<h4>Reply</h4>
+<form action="{% url 'create_reply' ad.id %}" method="post">
+    {% csrf_token %}
+
+    <textarea name="text" required placeholder="Text reply" cols="100" rows="10"></textarea><br>
+
+    <input type="submit" value="Save" />
+</form>
+{% endif %}
+{% endblock content %}

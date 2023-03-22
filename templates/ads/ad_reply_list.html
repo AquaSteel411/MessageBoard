@@ -1,0 +1,21 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+Ads
+{% endblock title %}
+
+{% block content %}
+<h2>Reply</h2>
+<hr>
+<h4>{{ ad.title }}</h4>
+<h5>{{ ad.category }}</h5>
+<h6>{{ ad.created }}</h6>
+<h6>{{ ad.content|safe }}</h6>
+<hr>
+{% for reply in ad_reply_list %}
+<h5>{{ reply.author }}</h5>
+<h5>{{ reply.text }}</h5>
+
+<hr>
+{% endfor %}
+{% endblock content %}

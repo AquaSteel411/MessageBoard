@@ -1,0 +1,14 @@
+{% extends 'flatpages/default.html' %}
+
+{% block title %}
+Reply
+{% endblock title %}
+
+{% block content %}
+<h2>Reply</h2>
+<hr>
+<h3>{{ reply.author }}</h3>
+<h4>{{ reply.text }}</h4>
+<h4>{{ reply.created }}</h4>
+<a href="{% url 'response' reply.id %}" class="my_btn_accept">Accept</a>
+{% endblock content %}
